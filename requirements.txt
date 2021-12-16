@@ -1,2 +1,6 @@
 pip~=20.0.2
 requests~=2.26.0
+keyring~=18.0.1
+setuptools~=45.2.0
+Cython~=0.29.24
+telegram~=0.0.1

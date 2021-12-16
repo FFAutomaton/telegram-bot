@@ -1,5 +1,8 @@
 import requests
 import datetime
+
+import telegram
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from constants import token
 
 
@@ -33,12 +36,24 @@ class BotHandler:
 
         return last_update
 
+    def actions(self, last_update):
+        routes = ['/start', '/ensonneoldu', '/kirmizialarm']
+        last_chat_name = last_update['message']['chat']['first_name']
+        action = last_update['message']['text']
+        if action == '/start':
+            return 'start works \n /ensonneoldu \n /kirmizialarm'
+        elif action == '/ensonneoldu':
+            return 'hicbisiiii'
+        last_resort = 'Selam  {}'.format(last_chat_name)
+        return last_resort
+
 
 greet_bot = BotHandler(token)
 
 
 def main():
     new_offset = None
+
     while True:
         greet_bot.get_updates(new_offset)
         last_update = greet_bot.get_last_update()
@@ -47,8 +62,9 @@ def main():
         last_chat_id = last_update['message']['chat']['id']
         last_chat_name = last_update['message']['chat']['first_name']
         print('last update id ', last_update_id)
-        greet_bot.send_message(last_chat_id, 'Selam  {}'.format(last_chat_name))
-
+        message = greet_bot.actions(last_update)
+        greet_bot.send_message(last_chat_id, message)
+        print(last_chat_text)
         new_offset = last_update_id + 1
 
 
